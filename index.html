@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>שליטה בשקע החכם</title>
+    <style>
+        body {
+            background: #f0f4f8;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(to right, #4CAF50, #45a049);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            text-align: center;
+            font-size: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .button:hover {
+            background: linear-gradient(to right, #45a049, #4CAF50);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <h1>שליטה בשקע החכם</h1>
+    <button class="button" onclick="sendCommand(true)">הפעל שקע</button>
+    <button class="button" onclick="sendCommand(false)">כבה שקע</button>
+
+    <script>
+        function sendCommand(state) {
+            fetch('/control', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({state})
+            })
+            .then(response => response.text())
+            .then(alert)
+            .catch(error => alert("שגיאה: " + error));
+        }
+    </script>
+</body>
+</html>
