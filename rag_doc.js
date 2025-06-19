@@ -33,9 +33,8 @@ const answersURL =
 const answersURL1 =
   "https://reactbotimage.s3.eu-north-1.amazonaws.com/answers.pdf";
 
-const answerPtp =
-  "https://reactbotimage.s3.eu-north-1.amazonaws.com/AI+Mentor+Knowledge+Base.pdf";
-const localPdfPath = "/tmp/answers_en.pdf";
+const answerPtp = "https://reactbotimage.s3.eu-north-1.amazonaws.com/moked.pdf";
+const localPdfPath = "/tmp/moked.pdf";
 
 async function downloadPDF(answerPtp) {
   const response = await fetch(answerPtp);
@@ -85,25 +84,25 @@ async function processPDF(question) {
     // הגדרת RAG Chain
     const retriever = vectorstore.asRetriever();
 
-    // const template = `
-    // אתה נציג שירות לקוחות מקצועי ואדיב.
-    // המטרה שלך היא לספק תשובות מדויקות ומועילות לשאלות הלקוחות על סמך המידע המופיע במסמכים שסופקו.
+    const template = `
+    אתה נציג שירות לקוחות מקצועי ואדיב.
+    המטרה שלך היא לספק תשובות מדויקות ומועילות לשאלות הלקוחות על סמך המידע המופיע במסמכים שסופקו.
 
-    // השתמש בהקשר הבא כדי לנסח את התשובה שלך:
+    השתמש בהקשר הבא כדי לנסח את התשובה שלך:
+    {context}
+
+    אם אין מידע זמין, עדכן את הלקוח בנימוס והצע פתרונות חלופיים.
+    שמור על טון מנומס ותומך, ותשובה קצרה ותמציתית (עד שני משפטים).
+    `;
+
+    //     const template = `You are a professional and courteous customer service representative.
+    // Your goal is to provide accurate and helpful answers to customer inquiries based on the information provided in the supplied documents.
+
+    // Use the following context to formulate your response:
     // {context}
 
-    // אם אין מידע זמין, עדכן את הלקוח בנימוס והצע פתרונות חלופיים.
-    // שמור על טון מנומס ותומך, ותשובה קצרה ותמציתית (עד שני משפטים).
-    // `;
-
-    const template = `You are a professional and courteous customer service representative.
-Your goal is to provide accurate and helpful answers to customer inquiries based on the information provided in the supplied documents.
-
-Use the following context to formulate your response:
-{context}
-
-If no information is available, politely update the customer and offer alternative solutions.
-Maintain a polite and supportive tone, with a concise and brief answer (up to two sentences).`;
+    // If no information is available, politely update the customer and offer alternative solutions.
+    // Maintain a polite and supportive tone, with a concise and brief answer (up to two sentences).`;
 
     const llm = new ChatOpenAI({
       model: "gpt-4",
